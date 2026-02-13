@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eddie Liu | CS @ UW-Madison</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================
+           CSS Variables - 改这里可以快速换主题
+           ============================================ */
+        :root {
+            --color-bg: #0a0a0b;
+            --color-surface: #131316;
+            --color-surface-hover: #1a1a1f;
+            --color-border: #2a2a30;
+            --color-text: #e8e8ec;
+            --color-text-secondary: #8a8a96;
+            --color-accent: #4f8ff7;
+            --color-accent-dim: rgba(79, 143, 247, 0.12);
+            --font-display: 'DM Serif Display', Georgia, serif;
+            --font-body: 'DM Sans', system-ui, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --max-width: 860px;
+            --section-gap: 100px;
+        }
+
+        /* ============================================
+           Reset & Base
+           ============================================ */
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 80px;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.7;
+            font-weight: 300;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: var(--color-accent);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        a:hover {
+            opacity: 0.8;
+        }
+
+        /* ============================================
+           Navigation
+           ============================================ */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            padding: 0 32px;
+            background: rgba(10, 10, 11, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .nav-inner {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 60px;
+        }
+
+        .nav-logo {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            color: var(--color-text);
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--color-text-secondary);
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-text);
+            opacity: 1;
+        }
+
+        /* Mobile menu toggle */
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: var(--color-text);
+            margin: 5px 0;
+            transition: 0.3s;
+        }
+
+        /* ============================================
+           Main Content Wrapper
+           ============================================ */
+        main {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 32px;
+        }
+
+        section {
+            padding-top: var(--section-gap);
+        }
+
+        /* ============================================
+           Section Headers
+           ============================================ */
+        .section-label {
+            font-family: var(--font-mono);
+            font-size: 12px;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--color-accent);
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-weight: 400;
+            margin-bottom: 40px;
+            letter-spacing: -0.01em;
+            line-height: 1.3;
+        }
+
+        /* ============================================
+           Hero Section
+           ============================================ */
+        #hero {
+            padding-top: 160px;
+            padding-bottom: 40px;
+            min-height: 85vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero-greeting {
+            font-family: var(--font-mono);
+            font-size: 14px;
+            color: var(--color-accent);
+            margin-bottom: 20px;
+            letter-spacing: 0.04em;
+        }
+
+        .hero-name {
+            font-family: var(--font-display);
+            font-size: clamp(42px, 7vw, 72px);
+            line-height: 1.1;
+            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+        }
+
+        .hero-tagline {
+            font-size: 20px;
+            color: var(--color-text-secondary);
+            max-width: 560px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .hero-links {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.25s;
+            cursor: pointer;
+            border: none;
+            font-family: var(--font-body);
+        }
+
+        .btn-primary {
+            background: var(--color-accent);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--color-text-secondary);
+            background: var(--color-surface);
+            opacity: 1;
+        }
+
+        /* ============================================
+           About Section
+           ============================================ */
+        .about-content {
+            color: var(--color-text-secondary);
+            font-size: 16px;
+            max-width: 640px;
+            line-height: 1.8;
+        }
+
+        .about-content p + p {
+            margin-top: 16px;
+        }
+
+        .about-highlight {
+            color: var(--color-text);
+            font-weight: 400;
+        }
+
+        /* ============================================
+           Skills Section
+           ============================================ */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-category {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 10px;
+            padding: 28px;
+            transition: border-color 0.3s, transform 0.3s;
+        }
+
+        .skill-category:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-2px);
+        }
+
+        .skill-category h3 {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--color-accent);
+            margin-bottom: 16px;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .skill-tag {
+            font-size: 13px;
+            padding: 5px 12px;
+            background: var(--color-accent-dim);
+            border-radius: 4px;
+            color: var(--color-text-secondary);
+            font-weight: 400;
+        }
+
+        /* ============================================
+           Projects Section
+           ============================================ */
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .project-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 10px;
+            padding: 32px;
+            transition: border-color 0.3s, transform 0.3s;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            align-items: start;
+        }
+
+        .project-card:hover {
+            border-color: var(--color-accent);
+            transform: translateY(-2px);
+        }
+
+        .project-name {
+            font-family: var(--font-display);
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .project-desc {
+            font-size: 14px;
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+            margin-bottom: 14px;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .project-tech span {
+            font-family: var(--font-mono);
+            font-size: 11px;
+            padding: 3px 10px;
+            background: var(--color-surface-hover);
+            border-radius: 3px;
+            color: var(--color-text-secondary);
+        }
+
+        .project-link {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            border: 1px solid var(--color-border);
+            padding: 8px 16px;
+            border-radius: 6px;
+            white-space: nowrap;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .project-link:hover {
+            color: var(--color-accent);
+            border-color: var(--color-accent);
+            opacity: 1;
+        }
+
+        /* ============================================
+           Education Section
+           ============================================ */
+        .education-card {
+            background: var(--color-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 10px;
+            padding: 32px;
+        }
+
+        .edu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 8px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .edu-school {
+            font-family: var(--font-display);
+            font-size: 22px;
+        }
+
+        .edu-date {
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--color-text-secondary);
+        }
+
+        .edu-degree {
+            color: var(--color-text-secondary);
+            font-size: 15px;
+            margin-bottom: 16px;
+        }
+
+        .edu-courses {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+            line-height: 1.8;
+        }
+
+        .edu-courses strong {
+            color: var(--color-text);
+            font-weight: 500;
+        }
+
+        /* ============================================
+           Contact Section
+           ============================================ */
+        .contact-text {
+            color: var(--color-text-secondary);
+            font-size: 16px;
+            max-width: 520px;
+            margin-bottom: 32px;
+            line-height: 1.8;
+        }
+
+        .contact-links {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            color: var(--color-text-secondary);
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .contact-link:hover {
+            color: var(--color-text);
+            border-color: var(--color-text-secondary);
+            opacity: 1;
+        }
+
+        /* ============================================
+           Footer
+           ============================================ */
+        footer {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 60px 32px 40px;
+            text-align: center;
+        }
+
+        .footer-line {
+            width: 40px;
+            height: 1px;
+            background: var(--color-border);
+            margin: 0 auto 20px;
+        }
+
+        footer p {
+            font-size: 13px;
+            color: var(--color-text-secondary);
+        }
+
+        /* ============================================
+           Scroll Animations
+           ============================================ */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================
+           Responsive Design
+           ============================================ */
+        @media (max-width: 640px) {
+            :root {
+                --section-gap: 72px;
+            }
+
+            main {
+                padding: 0 20px;
+            }
+
+            nav {
+                padding: 0 20px;
+            }
+
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                right: 0;
+                flex-direction: column;
+                background: var(--color-surface);
+                border-bottom: 1px solid var(--color-border);
+                padding: 16px 20px;
+                gap: 16px;
+            }
+
+            .nav-links.open {
+                display: flex;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            #hero {
+                padding-top: 120px;
+                min-height: auto;
+            }
+
+            .section-title {
+                font-size: 26px;
+            }
+
+            .project-card {
+                grid-template-columns: 1fr;
+            }
+
+            .edu-header {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ========== Navigation ========== -->
+    <nav>
+        <div class="nav-inner">
+            <span class="nav-logo">eddie.liu</span>
+            <button class="nav-toggle" onclick="document.querySelector('.nav-links').classList.toggle('open')" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- ========== Hero ========== -->
+        <section id="hero">
+            <p class="hero-greeting">Hi, my name is</p>
+            <h1 class="hero-name">Eddie Liu</h1>
+            <p class="hero-tagline">
+                Computer Science student at UW-Madison, interested in
+                systems programming, algorithms, and machine learning.
+            </p>
+            <div class="hero-links">
+                <a href="#contact" class="btn btn-primary">Get In Touch</a>
+                <a href="./resume.pdf" class="btn btn-outline" target="_blank">
+                    <!-- 把你的简历 PDF 放在同目录下命名为 resume.pdf -->
+                    Resume ↗
+                </a>
+            </div>
+        </section>
+
+        <!-- ========== About ========== -->
+        <section id="about" class="fade-in">
+            <p class="section-label">01 — About</p>
+            <h2 class="section-title">A bit about me</h2>
+            <div class="about-content">
+                <p>
+                    I'm a Computer Science undergraduate at the
+                    <span class="about-highlight">University of Wisconsin-Madison</span>.
+                    My coursework spans systems programming, data structures, algorithms,
+                    and computer architecture, giving me a strong foundation in both
+                    theory and practice.
+                </p>
+                <p>
+                    I enjoy working on challenging problems — from writing
+                    <span class="about-highlight">RISC-V assembly</span> to implementing
+                    <span class="about-highlight">machine learning</span> algorithms.
+                    I'm currently seeking internship and research opportunities where
+                    I can apply and deepen my skills.
+                </p>
+            </div>
+        </section>
+
+        <!-- ========== Skills ========== -->
+        <section id="skills" class="fade-in">
+            <p class="section-label">02 — Skills</p>
+            <h2 class="section-title">What I work with</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Languages</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">C</span>
+                        <span class="skill-tag">Java</span>
+                        <span class="skill-tag">Python</span>
+                        <span class="skill-tag">RISC-V</span>
+                        <span class="skill-tag">JavaScript</span>
+                        <span class="skill-tag">HTML / CSS</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>CS Fundamentals</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Data Structures</span>
+                        <span class="skill-tag">Algorithms</span>
+                        <span class="skill-tag">Computer Architecture</span>
+                        <span class="skill-tag">Systems Programming</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Tools & Frameworks</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Git</span>
+                        <span class="skill-tag">Linux</span>
+                        <span class="skill-tag">GDB</span>
+                        <span class="skill-tag">Vim</span>
+                        <span class="skill-tag">VS Code</span>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h3>Interests</h3>
+                    <div class="skill-tags">
+                        <span class="skill-tag">Machine Learning</span>
+                        <span class="skill-tag">Graph Algorithms</span>
+                        <span class="skill-tag">Optimization</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== Projects ========== -->
+        <section id="projects" class="fade-in">
+            <p class="section-label">03 — Projects</p>
+            <h2 class="section-title">Things I've built</h2>
+            <div class="projects-list">
+
+                <!-- Project 1 — 替换成你自己的项目 -->
+                <div class="project-card">
+                    <div>
+                        <h3 class="project-name">Sudoku Validator</h3>
+                        <p class="project-desc">
+                            A C program that validates Sudoku boards using pointer arithmetic,
+                            memory-mapped file I/O, and efficient 2D array traversal.
+                            Built as part of CS 354 coursework.
+                        </p>
+                        <div class="project-tech">
+                            <span>C</span>
+                            <span>Systems Programming</span>
+                            <span>File I/O</span>
+                        </div>
+                    </div>
+                    <a href="https://github.com/" class="project-link" target="_blank">
+                        GitHub ↗
+                    </a>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="project-card">
+                    <div>
+                        <h3 class="project-name">BST & Game Records System</h3>
+                        <p class="project-desc">
+                            Java implementation of a Binary Search Tree with custom iterators
+                            and a game records management system featuring search, sort,
+                            and filter operations.
+                        </p>
+                        <div class="project-tech">
+                            <span>Java</span>
+                            <span>Data Structures</span>
+                            <span>OOP</span>
+                        </div>
+                    </div>
+                    <a href="https://github.com/" class="project-link" target="_blank">
+                        GitHub ↗
+                    </a>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="project-card">
+                    <div>
+                        <h3 class="project-name">PCA & Bayesian Classifier</h3>
+                        <p class="project-desc">
+                            Python implementation of Principal Component Analysis for
+                            dimensionality reduction and a Bayesian classifier for
+                            image recognition tasks.
+                        </p>
+                        <div class="project-tech">
+                            <span>Python</span>
+                            <span>NumPy</span>
+                            <span>Machine Learning</span>
+                        </div>
+                    </div>
+                    <a href="https://github.com/" class="project-link" target="_blank">
+                        GitHub ↗
+                    </a>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ========== Education ========== -->
+        <section id="education" class="fade-in">
+            <p class="section-label">04 — Education</p>
+            <h2 class="section-title">Where I study</h2>
+            <div class="education-card">
+                <div class="edu-header">
+                    <h3 class="edu-school">University of Wisconsin-Madison</h3>
+                    <span class="edu-date">Expected May 2026</span>
+                </div>
+                <p class="edu-degree">B.S. in Computer Science</p>
+                <p class="edu-courses">
+                    <strong>Relevant Coursework:</strong>
+                    Data Structures (CS 300), Machine Organization & Programming (CS 354),
+                    Introduction to Algorithms (CS 421), Computer Architecture,
+                    Machine Learning, Discrete Mathematics, Linear Algebra
+                </p>
+            </div>
+        </section>
+
+        <!-- ========== Contact ========== -->
+        <section id="contact" class="fade-in">
+            <p class="section-label">05 — Contact</p>
+            <h2 class="section-title">Let's connect</h2>
+            <p class="contact-text">
+                I'm currently looking for internship and research opportunities.
+                Feel free to reach out — I'd love to hear from you.
+            </p>
+            <div class="contact-links">
+                <a href="mailto:cliu785@wisc.edu" class="contact-link">
+                    ✉ cliu785@wisc.edu
+                </a>
+                <a href="https://github.com/" class="contact-link" target="_blank">
+                    GitHub ↗
+                </a>
+                <a href="https://linkedin.com/" class="contact-link" target="_blank">
+                    LinkedIn ↗
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========== Footer ========== -->
+    <footer>
+        <div class="footer-line"></div>
+        <p>Built by Eddie Liu · 2025</p>
+    </footer>
+
+    <!-- ========== JavaScript ========== -->
+    <script>
+        // ---- Scroll Fade-in Animation ----
+        // 当元素进入视口时添加 .visible 类触发动画
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // ---- 手机端点击导航链接后自动关闭菜单 ----
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.querySelector('.nav-links').classList.remove('open');
+            });
+        });
+    </script>
+
+</body>
+</html>
